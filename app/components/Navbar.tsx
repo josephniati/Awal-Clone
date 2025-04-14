@@ -62,7 +62,7 @@ export default function Navbar() {
                 href='/'
                 className='cursor-pointer text-red-600 font-bold text-xl pt-4 ps-4'
               >
-                NEXTNEWS
+                MUSIC EXCHANGE
               </Link>
               <button
                 onClick={toggleMobileMenu}

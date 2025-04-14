@@ -1,4 +1,7 @@
 import Hero from './components/Hero';
+import Slider from './components/Slider';
+import MasonryGrid from './components/MasonryGrid';
+import Footer from './components/Footer';
 
 export default function Home() {
   return (
@@ -9,6 +12,7 @@ export default function Home() {
         subtitle='never give up'
         ctaText='Join Us!'
       />
+
       <div className='relative flex flex-col items-center pt-20 pb-12 overflow-hidden'>
         <img
           src='https://static.wixstatic.com/media/6b5f13_9e2cf134e8164d1b820730596b464b65~mv2.gif'
@@ -26,6 +30,10 @@ export default function Home() {
           </div>
         </div>
       </div>
+
+      <Slider />
+      <MasonryGrid />
+      <Footer />
     </div>
   );
 }
