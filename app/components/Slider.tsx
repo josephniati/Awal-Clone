@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import Image from "next/image";
 
 export interface ImageSlide {
@@ -25,6 +25,24 @@ const ImageSlides: ImageSlide[] = [
 export default function Slider() {
   const [expandedIndex, setExpandedIndex] = useState(0);
   const [direction, setDirection] = useState(1); // 1 for forward, -1 for reverse
+  const [isMobile, setIsMobile] = useState(false);
+  const sliderRef = useRef<HTMLDivElement>(null);
+
+  // Check if we're on mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    // Initial check
+    checkMobile();
+
+    // Add event listener for resize
+    window.addEventListener("resize", checkMobile);
+
+    // Cleanup
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   const moveToNextSlide = useCallback(() => {
     setExpandedIndex((prevIndex) => {
@@ -62,52 +80,99 @@ export default function Slider() {
     setExpandedIndex(index);
   };
 
+  // Calculate how many panels to show based on screen size
+  const displayPanels = useCallback(() => {
+    if (isMobile) {
+      // On mobile, only show 3 panels: current, previous, and next
+      return ImageSlides.filter((_, idx) => {
+        const diff = Math.abs(idx - expandedIndex);
+        return (
+          diff <= 1 ||
+          (expandedIndex === 0 && idx === 2) ||
+          (expandedIndex === ImageSlides.length - 1 &&
+            idx === ImageSlides.length - 3)
+        );
+      });
+    }
+    return ImageSlides;
+  }, [expandedIndex, isMobile]);
+
+  const visiblePanels = displayPanels();
+
   return (
     <div className="w-screen bg-black overflow-hidden">
       <div
-        className="w-full h-full flex items-center justify-center p-4 py-10 relative"
+        className="w-full flex items-center justify-center p-2 py-6 md:p-4 md:py-10 relative"
         style={{
           backgroundImage: `url(${ImageSlides[expandedIndex].image})`,
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
           backgroundPosition: "center",
+          height: isMobile ? "50vh" : "auto",
         }}
       >
         {/* Dark overlay */}
         <div className="absolute inset-0 bg-[rgba(0,0,0,0.7)] backdrop-blur-sm z-0" />
 
         {/* Slider panels */}
-        <div className="flex w-full max-w-7xl h-[50vh] gap-3 z-10 relative">
-          {ImageSlides.map((panel: ImageSlide, index: number) => (
-            <div
-              key={index}
-              onClick={() => handleClick(index)}
-              className={`
-                relative h-full cursor-pointer overflow-hidden
-                transition-all duration-300 ease-in-out
-                rounded-2xl ${
-                  expandedIndex === index
-                    ? "w-[60%]"
-                    : "w-[10%] hover:brightness-110"
-                }
-                min-w-[40px]
-              `}
-            >
-              <Image
-                src={panel.image}
-                alt={`Slider image ${index + 1}`}
-                layout="fill"
-                objectFit="cover"
-                className="rounded-2xl"
-              />
-              {expandedIndex === index && (
-                <p className="text-white capitalize absolute bottom-2 left-4 text-xl bg-black/50 p-2 px-8 rounded-md font-saira font-bold">
-                  {panel.artistName}
-                </p>
-              )}
-            </div>
-          ))}
+        <div
+          ref={sliderRef}
+          className="flex w-full max-w-7xl h-[30vh] md:h-[50vh] gap-1 md:gap-3 z-10 relative overflow-x-auto scrollbar-hide"
+        >
+          {visiblePanels.map((panel: ImageSlide, index: number) => {
+            // Get the actual index from the original array
+            const actualIndex = ImageSlides.findIndex(
+              (slide) => slide.image === panel.image
+            );
+            return (
+              <div
+                key={actualIndex}
+                onClick={() => handleClick(actualIndex)}
+                className={`
+                  relative h-full cursor-pointer overflow-hidden
+                  transition-all duration-300 ease-in-out
+                  rounded-xl md:rounded-2xl
+                  ${
+                    expandedIndex === actualIndex
+                      ? "w-[70%] md:w-[60%]"
+                      : "w-[15%] md:w-[10%] hover:brightness-110"
+                  }
+                  min-w-[30px] md:min-w-[40px]
+                `}
+              >
+                <Image
+                  src={panel.image}
+                  alt={`Slider image ${actualIndex + 1}`}
+                  layout="fill"
+                  objectFit="cover"
+                  className="rounded-xl md:rounded-2xl"
+                  priority={expandedIndex === actualIndex}
+                />
+                {expandedIndex === actualIndex && (
+                  <p className="text-white capitalize absolute bottom-1 md:bottom-2 left-2 md:left-4 text-sm md:text-xl bg-black/50 p-1 md:p-2 px-3 md:px-8 rounded-md font-saira font-bold truncate max-w-[90%]">
+                    {panel.artistName}
+                  </p>
+                )}
+              </div>
+            );
+          })}
         </div>
+
+        {/* Navigation dots for mobile */}
+        {isMobile && (
+          <div className="absolute bottom-2 left-0 right-0 flex justify-center gap-1 z-20">
+            {ImageSlides.map((_, idx) => (
+              <button
+                key={idx}
+                className={`w-2 h-2 rounded-full transition-all ${
+                  expandedIndex === idx ? "bg-white scale-125" : "bg-white/50"
+                }`}
+                onClick={() => handleClick(idx)}
+                aria-label={`Go to slide ${idx + 1}`}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
