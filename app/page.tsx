@@ -1,7 +1,16 @@
+<<<<<<< HEAD
 import Hero from "./components/Hero";
 import Slider from "./components/Slider";
 import MasonryGrid from "./components/MasonryGrid";
 import Footer from "./components/Footer";
+=======
+import Hero from './components/Hero';
+import Slider from './components/Slider';
+import MasonryGrid from './components/MasonryGrid';
+import Footer from './components/Footer';
+import FAQ from './components/FAQ';
+import { About } from './components/about';
+>>>>>>> f8578d7 (https://github.com/josephniati/Awal-Clone)
 
 export default function Home() {
   return (
@@ -34,6 +43,8 @@ export default function Home() {
       <Slider />
       <MasonryGrid />
       <Footer />
+      <FAQ />
+      <About />
     </div>
   );
 }
