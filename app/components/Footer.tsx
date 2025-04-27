@@ -1,7 +1,7 @@
 const Footer = () => {
   return (
-    <footer className="bg-gray-900 text-white text-center py-4 mt-auto">
-      <p className="text-sm">&copy; {new Date().getFullYear()} MusicXchange</p>
+    <footer className="bg-[#FFC700]  text-white text-center py-4 mt-auto">
+      <p className="text-lg">&copy; {new Date().getFullYear()} MusicXchange</p>
     </footer>
   );
 };

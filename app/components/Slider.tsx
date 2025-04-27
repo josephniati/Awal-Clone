@@ -7,19 +7,60 @@ export interface ImageSlide {
   image: string;
   artistName: string;
   video?: boolean;
+  instagram?: string;
 }
 
 const ImageSlides: ImageSlide[] = [
-  { image: "/artists/brittany/brittany-3.jpeg", artistName: "Just Brittany" },
-  { image: "/artists/octane/octane-2.jpeg", artistName: "I-Octane" },
-  { image: "/artists/tray/tray-1.jpg", artistName: "Tray Bills" },
-  { image: "/artists/drew/drew-1.jpeg", artistName: "Drew Sidora" },
-  { image: "/artists/nikki/nikki-1.jpg", artistName: "Nikki Natural" },
-  { image: "/artists/brittany/brittany-9.jpeg", artistName: "Just Brittany" },
-  { image: "/artists/tray/tray-3.jpg", artistName: "Tray Bills" },
-  { image: "/artists/drew/drew-2.jpeg", artistName: "Drew Sidora" },
-  { image: "/artists/nikki/nikki-2.jpg", artistName: "Nikki Natural" },
-  { image: "/artists/octane/octane-3.jpeg", artistName: "I-Octane" },
+  {
+    image: "/artists/brittany/brittany-3.jpeg",
+    artistName: "Just Brittany",
+    instagram: "https://www.instagram.com/QueenJustBrittany",
+  },
+  {
+    image: "/artists/octane/octane-2.jpeg",
+    artistName: "I-Octane",
+    instagram: "https://www.instagram.com/realioctane",
+  },
+  {
+    image: "/artists/tray/tray-1.jpg",
+    artistName: "Tray Bills",
+    instagram: "https://www.instagram.com/TrayMFBills",
+  },
+  {
+    image: "/artists/drew/drew-1.jpeg",
+    artistName: "Drew Sidora",
+    instagram: "https://www.instagram.com/DrewSidora",
+  },
+  {
+    image: "/artists/nikki/nikki-1.jpg",
+    artistName: "Nikki Natural",
+    instagram: "https://www.instagram.com/NikkiNatural",
+  },
+  {
+    image: "/artists/brittany/brittany-9.jpeg",
+    artistName: "Just Brittany",
+    instagram: "https://www.instagram.com/QueenJustBrittany",
+  },
+  {
+    image: "/artists/tray/tray-3.jpg",
+    artistName: "Tray Bills",
+    instagram: "https://www.instagram.com/TrayMFBills",
+  },
+  {
+    image: "/artists/drew/drew-2.jpeg",
+    artistName: "Drew Sidora",
+    instagram: "https://www.instagram.com/DrewSidora",
+  },
+  {
+    image: "/artists/nikki/nikki-2.jpg",
+    artistName: "Nikki Natural",
+    instagram: "https://www.instagram.com/NikkiNatural",
+  },
+  {
+    image: "/artists/octane/octane-3.jpeg",
+    artistName: "I-Octane",
+    instagram: "https://www.instagram.com/realioctane",
+  },
 ];
 
 export default function Slider() {
@@ -140,19 +181,31 @@ export default function Slider() {
                   min-w-[30px] md:min-w-[40px]
                 `}
               >
-                <Image
-                  src={panel.image}
-                  alt={`Slider image ${actualIndex + 1}`}
-                  layout="fill"
-                  objectFit="cover"
-                  className="rounded-xl md:rounded-2xl"
-                  priority={expandedIndex === actualIndex}
-                />
-                {expandedIndex === actualIndex && (
-                  <p className="text-white capitalize absolute bottom-1 md:bottom-2 left-2 md:left-4 text-sm md:text-xl bg-black/50 p-1 md:p-2 px-3 md:px-8 rounded-md font-saira font-bold truncate max-w-[90%]">
-                    {panel.artistName}
-                  </p>
-                )}
+                <a
+                  href={panel.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block h-full w-full"
+                  onClick={(e) => {
+                    if (expandedIndex === actualIndex) {
+                      e.stopPropagation();
+                    }
+                  }}
+                >
+                  <Image
+                    src={panel.image}
+                    alt={`Slider image ${actualIndex + 1}`}
+                    layout="fill"
+                    objectFit="cover"
+                    className="rounded-xl md:rounded-2xl"
+                    priority={expandedIndex === actualIndex}
+                  />
+                  {expandedIndex === actualIndex && (
+                    <p className="text-white capitalize absolute bottom-1 md:bottom-2 left-2 md:left-4 text-sm md:text-xl bg-black/50 p-1 md:p-2 px-3 md:px-8 rounded-md font-saira font-bold truncate max-w-[90%]">
+                      {panel.artistName}
+                    </p>
+                  )}
+                </a>
               </div>
             );
           })}

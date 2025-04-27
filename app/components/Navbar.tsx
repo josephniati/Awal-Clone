@@ -1,7 +1,11 @@
 "use client";
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import Image from "next/image";
+import InstagramIcon from "../assets/svg/InstagramIcon";
+import ThreadsIcon from "../assets/svg/ThreadsIcon";
+import YouTubeIcon from "../assets/svg/YouTubeIcon";
+
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const toggleMobileMenu = () => {
@@ -12,8 +16,7 @@ export default function Navbar() {
   const navItems = [
     { name: "Home", href: "/" },
     { name: "About", href: "/about" },
-    // { name: "News", href: "/news" },
-    { name: "Contact", href: "/contact" },
+    { name: "FAQ", href: "/faq" },
   ];
 
   return (
@@ -128,8 +131,37 @@ export default function Navbar() {
               ))}
               <li>
                 <button className="bg-[#FFC700] font-mono hover:bg-black text-white px-8 py-2 rounded-md transition-all duration-300">
-                  Login
+                  More Coming Soon
                 </button>
+              </li>
+              <li className="flex items-center gap-4">
+                <a
+                  href="https://instagram.com/musicXchange"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#FFC700] hover:text-black transition-colors"
+                  aria-label="Instagram @musicXchange"
+                >
+                  <InstagramIcon color="#FFC700" size={24} />
+                </a>
+                <a
+                  href="https://youtube.com/@musicXchange"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#FFC700] hover:text-black transition-colors"
+                  aria-label="YouTube @musicXchange"
+                >
+                  <YouTubeIcon color="#FFC700" size={24} />
+                </a>
+                <a
+                  href="https://threads.net/@musicXchange"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#FFC700] hover:text-black transition-colors"
+                  aria-label="Threads @musicXchange"
+                >
+                  <ThreadsIcon color="#FFC700" size={24} />
+                </a>
               </li>
             </ul>
           </div>

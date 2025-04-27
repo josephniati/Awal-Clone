@@ -32,7 +32,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${sairaExtraCondensed.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${sairaExtraCondensed.variable} antialiased flex flex-col min-h-screen`}
       >
         <Navbar />
         {children}
